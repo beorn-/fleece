@@ -1,7 +1,7 @@
 # Fleece
 ======
 
-Fleece is a partial C rewrite of lumberjack... but lighter and non-blocking. This tool was written for our logstash platform at Gandi.net
+Fleece is a partial C rewrite of lumberjack... but lighter and non-blocking. This tool was written for our logstash platform at Gandi.net. The tool reads stdin then if it is already a JSON stream it just allows you to forward it through UDP to a remote host, if it's a plain text stream fleece jsonifies it and pushes it to the remote host.
 
 ## Configuration
 

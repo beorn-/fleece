@@ -1,8 +1,7 @@
 # Fleece
 ======
 
-Fleece is a partial C rewrite of lumberjack... but lighter and non-blocking
-
+Fleece is a partial C rewrite of lumberjack... but lighter and non-blocking. This tool was written for our logstash platform at Gandi.net
 
 ## Configuration
 
@@ -33,7 +32,36 @@ An apache2 vhost logformat configuration example:
    ErrorLog  "|| /usr/bin/fleece --quiet --host logstash-vip.gandi.net --port 6785 --field vhost=www.test.gandi.net --field role=frontend --field environment=test --field platform=website"
 ```
 
+### Logstash
+
+A logstash minimal configuration to get those events indexed
+
+```
+input 
+  [...]
+
+  #fleece
+  udp {
+    port => 6784
+    type => "json"
+    tags => ["apache", "access_log", "fleece"]
+    codec => "json"
+  }
+
+  udp {
+    port => 6785
+    type => "json"
+    tags => ["apache", "error_log", "fleece"]
+    codec => "json"
+  }
+  [...]
+}
+
+```
+
 ### CLI parameters
+
+And the --help output of fleece
 
 ```Bash
 Usage: ./fleece [options]]
@@ -45,3 +73,7 @@ Usage: ./fleece [options]]
   --quiet                 Disable outputs
   --window_size VALUE     The window size
 ```
+
+## Build debian package
+
+We are using debian for our platforms. This repository embeds the debian packaging information.
